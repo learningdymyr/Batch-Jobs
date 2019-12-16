@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: myjob
+spec:
+  parallelism: 1
+  template:
+    spec:
+      containers:
+        - name: myjob
+          image: alpine
+          imagePullPolicy: IfNotPresent
+          command: ['sh', '-c', 'source /usr/share/jobdemo/jobscript.sh']
+          volumeMounts:
+          - mountPath: "/usr/share/jobdemo"
+            name: my-persistent-volumeclaim-name
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      volumes:
+      - name: my-persistent-volumeclaim-name
+        persistentVolumeClaim:
+          claimName: my-persistent-volumeclaim
