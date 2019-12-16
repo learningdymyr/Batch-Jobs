@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: myjob
+spec:
+  template:
+    spec:      
+      containers:
+      - name: myjob
+        image: alpine
+        imagePullPolicy: IfNotPresent
+        
+        command: ['sh', '-c', 'echo Job Pod is Running ; sleep 3']
+    
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      
+  backoffLimit: 2
+  completions: 4
+  parallelism: 4
